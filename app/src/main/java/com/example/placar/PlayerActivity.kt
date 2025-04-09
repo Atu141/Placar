@@ -3,6 +3,8 @@ package com.example.placar
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,8 +25,20 @@ class PlayerActivity : AppCompatActivity() {
             val nextScreem = Intent(this, MainActivity::class.java)
             nextScreem.putExtra("PLAYER1", binding.etPlayer1.text.toString())
             nextScreem.putExtra("PLAYER2", binding.etPlayer2.text.toString())
-            startActivity(nextScreem)
-        }
 
+
+            previewRequest.launch(nextScreem)
+        }
     }
+
+    private val previewRequest = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                val lastResult = getString(R.string.message_to_share,
+                    it.data?.getStringExtra(KEY_RESULT_EXTRA_PLAYER_ONE_NAME),
+                    it.data?.getStringExtra(KEY_RESULT_EXTRA_PLAYER_TWO_NAME),
+                    it.data?.getIntExtra(KEY_RESULT_EXTRA_PLAYER_ONE_SCORE, 0),
+                    it.data?.getIntExtra(KEY_RESULT_EXTRA_PLAYER_TWO_SCORE, 0))
+                binding.tvLastGame.text = lastResult
+            }
+        }
 }

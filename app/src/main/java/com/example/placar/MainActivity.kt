@@ -1,5 +1,6 @@
 package com.example.placar
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,17 @@ class MainActivity : AppCompatActivity() {
         setUpExtras(savedInstanceState)
         setUpListeners()
 
+        binding.btFinishMatch.setOnClickListener{
+            val ret = Intent()
+            ret.putExtra(KEY_RESULT_EXTRA_PLAYER_ONE_NAME, binding.tvPlayerOneName.text.toString())
+            ret.putExtra(KEY_RESULT_EXTRA_PLAYER_TWO_NAME, binding.tvPlayerTwoName.text.toString())
+            ret.putExtra(KEY_RESULT_EXTRA_PLAYER_ONE_NAME,
+                binding.tvPlayerOneScore.text.toString().toInt())
+            ret.putExtra(KEY_RESULT_EXTRA_PLAYER_TWO_SCORE,
+                binding.tvPlayerTwoScore.text.toString().toInt())
+            setResult(RESULT_OK, ret)
+            super.finish()
+        }
     }
 
     private fun setUpListeners() {
@@ -53,4 +65,6 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("PLAYER_ONE_SCORE",playerOneScore)
         outState.putInt("PLAYER_TWO_SCORE",playerTwoScore)
     }
+
+
 }
