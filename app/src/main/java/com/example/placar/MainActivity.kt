@@ -3,13 +3,14 @@ package com.example.placar
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.placar.databinding.ActivityMainBinding
-import com.example.placar.databinding.ActivityPlayerBinding
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private var playerOneScore = 0
+    private var playerTwoScore = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,7 +20,20 @@ class MainActivity : AppCompatActivity() {
 
 
         setUpExtras()
+        setUpListeners()
 
+    }
+
+    private fun setUpListeners() {
+        binding.btPlayerOneScore.setOnClickListener{
+            playerOneScore++
+            binding.tvPlayerOneScore.text = playerOneScore.toString()
+        }
+
+        binding.btPlayerTwoScore.setOnClickListener{
+            playerTwoScore++
+            binding.tvPlayerTwoScore.text = playerTwoScore.toString()
+        }
     }
 
     private fun setUpExtras() {
